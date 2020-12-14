@@ -1,0 +1,15 @@
+﻿"OOP-Learning.exe" (Win32). Загружено "E:\Ilya\Desktop\Рабочий стол\GitHub_projects\OOP-LearningVisual\x64\Debug\OOP-Learning.exe". Символы загружены.
+"OOP-Learning.exe" (Win32). Загружено "C:\Windows\System32\ntdll.dll". 
+"OOP-Learning.exe" (Win32). Загружено "C:\Windows\System32\kernel32.dll". 
+"OOP-Learning.exe" (Win32). Загружено "C:\Windows\System32\KernelBase.dll". 
+"OOP-Learning.exe" (Win32). Загружено "C:\Windows\System32\msvcp140d.dll". 
+"OOP-Learning.exe" (Win32). Загружено "C:\Windows\System32\vcruntime140d.dll". 
+"OOP-Learning.exe" (Win32). Загружено "C:\Windows\System32\vcruntime140_1d.dll". 
+"OOP-Learning.exe" (Win32). Загружено "C:\Windows\System32\ucrtbased.dll". 
+Поток 0x30d8 завершился с кодом 0 (0x0).
+"OOP-Learning.exe" (Win32). Загружено "C:\Windows\System32\sechost.dll". 
+"OOP-Learning.exe" (Win32). Загружено "C:\Windows\System32\rpcrt4.dll". 
+Поток 0x22c4 завершился с кодом 0 (0x0).
+Поток 0x1c04 завершился с кодом 0 (0x0).
+Поток 0x2a4c завершился с кодом -1073741749 (0xc000004b).
+Программа "[4292] OOP-Learning.exe" завершилась с кодом -1073741510 (0xc000013a).

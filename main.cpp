@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include <stdlib.h>
+#include <string>
+#include <queue>
 
 #include "Foo1.h"
 #include "Foo2.h"
@@ -34,10 +36,22 @@ struct Node
 	Node* next;
 	Node* prev;
 };
+Node* head, * tail, *cur;
 
-Node* head, * tail;
+struct Tree
+{
+	int data;
+	Tree* left;
+	Tree* right;
+};
+Tree* head_r;
 
-
+struct StringTree
+{
+	string data;
+	StringTree* next;
+};
+StringTree* curSt;
 
 void PrintStruct()
 {
@@ -88,6 +102,53 @@ void AddTail()
 	Four->next = NULL;
 	tail = Four;
 
+}
+
+
+
+int insertTreeValue(Tree* node, int  val, int l)
+{
+	if (val > node->data)
+	{
+		if (node->right == NULL)
+		{
+			node->right = new Tree();
+			node->right->data = val;
+			return l + 1;
+		}
+		else
+		{
+			return insertTreeValue(node->right, val, l + 1);
+		}
+	}
+	else if (val < node->data)
+	{
+		if (node->left == NULL)
+		{
+			node->left = new Tree();
+			node->left->data = val;
+			return l + 1;
+		}
+		else
+		{
+			return insertTreeValue(node->left, val, l + 1);
+		}
+	}
+	else
+	{
+		cout << "\nThe entered number is already present:" << endl;
+		return l;
+	}
+}
+
+void addTreeValue()
+{
+	int val;
+	cout << "Set new value of tree: ";
+	cin >> val;	
+
+	int level = insertTreeValue(head_r, val, 0);
+	cout << "On level " << level << endl << endl;
 }
 
 void AddHead()
@@ -154,30 +215,179 @@ void DelEl()
 	}
 }
 
+void SortBubbleStruct()
+{	
+	bool swaped = true;
+	int count = 0;
 
+	while (swaped)
+	{		
+		swaped = false;
+		cur = head;
+		while (cur->next != NULL)
+		{
+			if (cur->data > cur->next->data)
+			{
+				int temp = cur->data;
+				cur->data = cur->next->data;
+				cur->next->data = temp;
+				swaped = true;
+			}
+			else
+			{
+				cur = cur->next;
+			}
+		}
+		count++;
+
+		if (swaped)
+			PrintStruct();
+	}
+		
+	cout << "Список остортирован за " << count - 1 << " итераций.\n\nИтог:" << endl;
+	PrintStruct();
+}
+
+void preOrder(Tree* node, StringTree* ValS) {
+	if (node == NULL) return;
+	ValS->data = ValS->data + " " + to_string(node->data);	
+
+	if (node->left != NULL)
+	{		
+		if (ValS->next == NULL)
+		{
+			ValS->next = new StringTree();
+		}		
+	}	
+
+	preOrder(node->left, ValS->next);
+	preOrder(node->right, ValS->next);
+}
+
+
+//void levelOrderPrint(Tree* root, StringTree* ValS) {
+//	if (root == NULL)
+//	{
+//		return;
+//	}
+//	queue<Tree*> q;								// Создаем очередь
+//	q.push(root);								// Вставляем корень в очередь
+//
+//	while (!q.empty())							// пока очередь не пуста
+//	{
+//		Tree* temp = q.front();					// Берем первый элемент в очереди
+//		q.pop();								// Удаляем первый элемент в очереди
+//		//cout << temp->data << " ";				// Печатаем значение первого элемента в очереди
+//
+//		ValS->data = ValS->data + " " + temp->data;
+//
+//		if (temp->left != NULL)
+//			q.push(temp->left);					// Вставляем  в очередь левого потомка
+//
+//		if (temp->right != NULL)
+//			q.push(temp->right);				// Вставляем  в очередь правого потомка
+//	}
+//}
+
+//string* addTextToTree(Tree* node, StringTree* ValS, int l)
+//{
+//	ValS->data = node->data;
+//
+//
+//	if (node->left->left != NULL)
+//	{
+//		ValS->data = node->data;
+//		ValS->next = new StringTree();
+//		addTextToTree(node->left, ValS->next, l + 1);
+//	}
+//
+//	if (node->left != NULL)
+//	{
+//		ValS->next = new StringTree();
+//		addTextToTree(node->left, ValS->next, l + 1);
+//	}
+//	else if (node->left == NULL)
+//	{
+//		ValS->next = new StringTree();
+//		addTextToTree(node->right, ValS->next, l + 1);
+//	}
+//	else
+//	{
+//
+//	}
+//
+//	s[l] = s[l] + " " + to_string(node->data);
+//	if (node->left != NULL)
+//	{
+//		s = addTextToTree(node->left, s, l + 1);
+//	}
+//	if (node->right != NULL)
+//	{
+//		s = addTextToTree(node->right, s, l + 1);
+//	}
+//	return s;
+//}
+
+
+void PrintTree()
+{
+	/*int a = 10;
+
+	string s[100];
+	for (int i = 0; i < 100; i++)
+	{
+		s[i] = "";
+	}	
+
+	string* result = addTextToTree(head_r, s, 0);
+
+	cout << "Tree value: " << endl;
+
+	int i = 0;
+	while (s[i] != "")
+	{
+		cout << "Level " << i << ": " << s[i] << endl;
+		i++;
+	}*/
+
+	StringTree* ValS = new StringTree();
+	preOrder(head_r, ValS);
+
+	cout << "##################################################################################################" << endl << endl;
+	cout << "Tree value: " << endl;
+
+	int i = 0;
+	while (ValS != NULL)
+	{
+		cout << "Level " << i << ":" << ValS->data << endl;
+		ValS = ValS->next;
+		i++;
+	}
+
+	cout <<endl;
+	cout << "##################################################################################################" << endl << endl;
+}
 
 int main()
 {
-	Node* First = new Node();
-	Node* Second = new Node();
-	Node* Third = new Node();
+	setlocale(LC_ALL, "Russian");
 
+	Node* First = new Node();
 
 	First->data = 10;
-	First->next = Second;
+	First->next = NULL;
 	First->prev = NULL;
 
-	Second->data = 15;
-	Second->next = Third;
-	Second->prev = First;
-
-	Third->data = 20;
-	Third->next = NULL;
-	Third->prev = Second;
-
 	head = First;
-	tail = Third;
-	
+	tail = First;	
+
+	Tree* Rood = new Tree();
+	Rood->data = 10;
+	Rood->left = NULL;
+	Rood->right = NULL;
+
+	head_r = Rood;
+
 
 	Words = "hellomyfriend";
 
@@ -226,7 +436,7 @@ int main()
 			cout << endl;
 		}
 		*/
-		cout << "0 - Exit\n1 - Read\n2 - Write(not more than 5 elements)\n3 - increase by 1\n4 - swap elem arr\n5 - print arr rev\n6 - min val\n7 - bubble sort\n8 - quick sort\n10 - print struct\n11 - add element at tail\n12 - add element at head\n13 - del element\n14 - print struct rev" << endl << endl << "please, choose a command: ";
+		cout << "0 - Exit\n1 - Read\n2 - Write(not more than 5 elements)\n3 - increase by 1\n4 - swap elem arr\n5 - print arr rev\n6 - min val\n7 - bubble sort\n8 - quick sort\n10 - print struct\n11 - add element at tail\n12 - add element at head\n13 - del element\n14 - print struct rev\n15 - bubble sort struct\n16 - Insert value in tree\n17 - Print tree" << endl << endl << "please, choose a command: ";
 		cin >> command;
 		system("cls");
 
@@ -299,7 +509,20 @@ int main()
 		case 14:
 			PrintStructRev();
 			break;	
+		
+		case 15:
+			SortBubbleStruct();
+			break;
 
+		case 16:
+			addTreeValue();
+			break;
+
+		case 17:
+			//preOrder(head_r, curSt);
+			//levelOrderPrint(head_r);
+			PrintTree();
+			break;
 		case 0:
 			return 0;
 			break;
@@ -309,3 +532,11 @@ int main()
 
 	return 0;
 }
+
+
+
+//Д/з 09.12.2020:
+//1)избавиться от строки в 100 элементов и заменить на список с элементом строки и записывать элементы склеиванием
+//2)добавить условие на повторяющиеся значения
+//3)организовать корректный вывод
+ 

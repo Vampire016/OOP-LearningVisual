@@ -1,0 +1,2 @@
+E:\Ilya\Desktop\Рабочий стол\GitHub_projects\OOP-LearningVisual\x64\Debug\OOP-Learning.exe
+E:\Ilya\Desktop\Рабочий стол\GitHub_projects\OOP-LearningVisual\x64\Debug\OOP-Learning.pdb
