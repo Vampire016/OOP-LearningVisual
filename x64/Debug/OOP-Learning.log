@@ -1,2 +1,4 @@
 ﻿  main.cpp
+E:\Ilya\Desktop\Рабочий стол\GitHub_projects\OOP-LearningVisual\main.cpp(205,7): warning C4101: i: неиспользованная локальная переменная
+E:\Ilya\Desktop\Рабочий стол\GitHub_projects\OOP-LearningVisual\main.cpp(495,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
   OOP-Learning.vcxproj -> E:\Ilya\Desktop\Рабочий стол\GitHub_projects\OOP-LearningVisual\x64\Debug\OOP-Learning.exe

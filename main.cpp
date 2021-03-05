@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string>
 #include <queue>
+#include <ctime>
 
 #include "Foo1.h"
 #include "Foo2.h"
@@ -141,14 +142,82 @@ int insertTreeValue(Tree* node, int  val, int l)
 	}
 }
 
+int insertTreeValueRand(Tree* node, int val, int l)
+{
+	if (val > node->data)
+	{
+		if (node->right == NULL)
+		{
+			node->right = new Tree();
+			node->right->data = val;
+			return l + 1;
+		}
+		else
+		{
+			return insertTreeValueRand(node->right, val, l + 1);
+		}
+	}
+	else if (val < node->data)
+	{
+		if (node->left == NULL)
+		{
+			node->left = new Tree();
+			node->left->data = val;
+			return l + 1;
+		}
+		else
+		{
+			return insertTreeValueRand(node->left, val, l + 1);
+		}
+	}
+	else
+	{
+		cout << "\nThe entered number is already present:" << endl;
+		val = rand() % 10;
+		return insertTreeValueRand(head_r, val, l = 0);
+	}
+}
+
 void addTreeValue()
 {
-	int val;
-	cout << "Set new value of tree: ";
-	cin >> val;	
+	int chouse;
+	cout << "How do you want to enter values?" << endl;
+	cout << "On keyboard - 1;" << endl << "Random - 2." << endl;
+	cin >> chouse;
+	
+	switch (chouse)
+	{
+		int level;
+		int val;
+	case 1:		
+		cout << "Set new value of tree: ";
+		cin >> val;
 
-	int level = insertTreeValue(head_r, val, 0);
-	cout << "On level " << level << endl << endl;
+		level = insertTreeValue(head_r, val, 0);
+		cout << "On level " << level << endl << endl;
+		break;
+
+	case 2:
+		int quantity;
+		cout << "How many element do you want to ensert?" << endl;
+		cin >> quantity;
+
+		int i;
+
+		for (int i = 0; i < quantity; i++)
+		{
+			val = rand() % 10;
+			level = insertTreeValueRand(head_r, val, 0);
+			cout << val << endl;
+			cout << "On level " << level << endl << endl;
+		}		
+		break;
+
+	default:
+		cout << "Menu item missing";
+		return;
+		break;
+	}	
 }
 
 void AddHead()
@@ -252,16 +321,47 @@ void preOrder(Tree* node, StringTree* ValS) {
 	if (node == NULL) return;
 	ValS->data = ValS->data + " " + to_string(node->data);	
 
-	if (node->left != NULL)
+	if ((node->left != NULL)||(node->right != NULL))
 	{		
 		if (ValS->next == NULL)
 		{
 			ValS->next = new StringTree();
 		}		
+	}
+	
+	if ((node->left != NULL))
+	{
+		ValS->next->data = ValS->next->data + " (";
+		preOrder(node->left, ValS->next);
+	}
+	if ((node->right != NULL))
+	{
+		if (node->left == NULL)
+		{
+			ValS->next->data = ValS->next->data + " (";
+		}
+		preOrder(node->right, ValS->next);
+		ValS->next->data = ValS->next->data + " )";
+	}
+
+	/*preOrder(node->left, ValS->next);
+	preOrder(node->right, ValS->next);*/
+}
+
+void preOrder1(Tree* node, StringTree* ValS) {
+	if (node == NULL) return;
+	ValS->data = ValS->data + " " + to_string(node->data);
+
+	if ((node->left != NULL) || (node->right != NULL))
+	{
+		if (ValS->next == NULL)
+		{
+			ValS->next = new StringTree();
+		}
 	}	
 
-	preOrder(node->left, ValS->next);
-	preOrder(node->right, ValS->next);
+	preOrder1(node->left, ValS->next);
+	preOrder1(node->right, ValS->next);
 }
 
 
@@ -368,9 +468,31 @@ void PrintTree()
 	cout << "##################################################################################################" << endl << endl;
 }
 
+void PrintTree1()
+{
+
+	StringTree* ValS = new StringTree();
+	preOrder1(head_r, ValS);
+
+	cout << "##################################################################################################" << endl << endl;
+	cout << "Tree value: " << endl;
+
+	int i = 0;
+	while (ValS != NULL)
+	{
+		cout << "Level " << i << ":" << ValS->data << endl;
+		ValS = ValS->next;
+		i++;
+	}
+
+	cout << endl;
+	cout << "##################################################################################################" << endl << endl;
+}
+
 int main()
 {
 	setlocale(LC_ALL, "Russian");
+	srand(time(NULL));
 
 	Node* First = new Node();
 
@@ -523,6 +645,10 @@ int main()
 			//levelOrderPrint(head_r);
 			PrintTree();
 			break;
+
+		case 18:
+			PrintTree1();
+			break;
 		case 0:
 			return 0;
 			break;
@@ -540,3 +666,5 @@ int main()
 //2)добавить условие на повторяющиеся значения
 //3)организовать корректный вывод
  
+//Д/з 14.12.2020:
+//Решить проблему с выводо рандомгого дерева
